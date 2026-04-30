@@ -356,12 +356,12 @@ if st.session_state.role is None:
                 <div class="question">Bienvenue ! Qui êtes-vous ?</div>
                 <div class="choix-box">
                     <div class="choix-carte">
-                        <div class="choix-icone">🧳</div>
+                        <div class="choix-icone"></div>
                         <div class="choix-titre">Touriste</div>
                         <div class="choix-desc">Je recherche des sites à visiter</div>
                     </div>
                     <div class="choix-carte">
-                        <div class="choix-icone">🏠</div>
+                        <div class="choix-icone"></div>
                         <div class="choix-titre">Propriétaire</div>
                         <div class="choix-desc">Je référence mon site touristique</div>
                     </div>
@@ -399,17 +399,17 @@ else:
         st.markdown(f"**Profil:** {st.session_state.role.capitalize()}")
         st.markdown("---")
         
-        if st.button("🏠 Accueil", use_container_width=True):
+        if st.button(" Accueil", use_container_width=True):
             st.session_state.page = 'accueil'
-        if st.button("🔍 Explorer", use_container_width=True):
+        if st.button(" Explorer", use_container_width=True):
             st.session_state.page = 'explorer'
-        if st.button("📝 Enregistrer", use_container_width=True):
+        if st.button(" Enregistrer", use_container_width=True):
             st.session_state.page = 'enregistrer'
-        if st.button("📊 Dashboard", use_container_width=True):
+        if st.button(" Dashboard", use_container_width=True):
             st.session_state.page = 'dashboard'
         
         st.markdown("---")
-        if st.button("🔄 Changer profil", use_container_width=True):
+        if st.button(" Changer profil", use_container_width=True):
             st.session_state.role = None
             st.rerun()
         
@@ -472,16 +472,16 @@ else:
                 <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                     <div>
                         <div class="site-nom">{site['nom']}</div>
-                        <div class="site-lieu">📍 {site['ville']}, {site['region']}</div>
+                        <div class="site-lieu"> {site['ville']}, {site['region']}</div>
                     </div>
                     <span class="etiquette">{site['categorie']}</span>
                 </div>
                 <div class="site-desc">{site['description']}</div>
                 <div class="site-infos">
-                    💰 <strong>{site['prix']:,} FCFA</strong> &nbsp;|&nbsp;
-                    ⭐ <strong>{site['note']}/5</strong> ({site['avis']} avis) &nbsp;|&nbsp;
-                    🕐 {site['horaires']} &nbsp;|&nbsp;
-                    📞 {site['contact']}
+                     <strong>{site['prix']:,} FCFA</strong> &nbsp;|&nbsp;
+                     <strong>{site['note']}/5</strong> ({site['avis']} avis) &nbsp;|&nbsp;
+                     {site['horaires']} &nbsp;|&nbsp;
+                     {site['contact']}
                 </div>
             </div>
             """, unsafe_allow_html=True)
