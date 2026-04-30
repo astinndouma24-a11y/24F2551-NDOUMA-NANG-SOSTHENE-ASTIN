@@ -7,7 +7,7 @@ from datetime import datetime
 st.set_page_config(page_title="TANAP - Cameroun", page_icon="🇨🇲", layout="wide")
 
 # REMPLACEZ PAR VOTRE LIEN IMAGE (GitHub ou Imgur)
-BG_IMAGE = "https://raw.githubusercontent.com/VOTRE_USERNAME/24F2551-NDOUMA-NANG-SOSTHENE-ASTIN/main/image%20de%20fond.jpg"
+BG_IMAGE = "https://raw.githubusercontent.com/astinndouma24-a11y/24F2551-NDOUMA-NANG-SOSTHENE-ASTIN/main/image%20de%20fond.jpg"
 
 # CSS Style GlowSpot adapté - Tons bleu-vert doux
 st.markdown(f"""
