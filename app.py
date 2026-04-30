@@ -6,24 +6,36 @@ from datetime import datetime
 # Config
 st.set_page_config(page_title="TANAP - Cameroun", page_icon="🇨🇲", layout="wide")
 
-# REMPLACEZ PAR VOTRE LIEN IMAGE (GitHub ou Imgur)
+# REMPLACEZ PAR VOTRE LIEN IMAGE
 BG_IMAGE = "https://raw.githubusercontent.com/astinndouma24-a11y/24F2551-NDOUMA-NANG-SOSTHENE-ASTIN/main/image%20de%20fond.jpg"
 
-# CSS Style GlowSpot adapté - Tons bleu-vert doux
+# PANTONE 116 C = #FFCC00 (Or)
+GOLD = "#FFCC00"
+GOLD_DARK = "#D4A900"
+GOLD_LIGHT = "#FFE066"
+DARK = "#1a1a1a"
+DARK_SOFT = "#2d2d2d"
+
+# CSS Thème Or Premium
 st.markdown(f"""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
     
     * {{
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Montserrat', sans-serif;
+    }}
+    
+    h1, h2, h3, .title {{
+        font-family: 'Playfair Display', serif !important;
     }}
     
     .stApp {{
-        background: linear-gradient(135deg, #e8f4f3 0%, #d4e8e6 50%, #c5dbd9 100%);
+        background: linear-gradient(135deg, {DARK} 0%, {DARK_SOFT} 100%);
     }}
     
     section[data-testid="stSidebar"] {{
-        background: linear-gradient(180deg, #1a5c4c 0%, #0d3d31 100%);
+        background: linear-gradient(180deg, {DARK} 0%, #0a0a0a 100%);
+        border-right: 2px solid {GOLD};
     }}
     
     section[data-testid="stSidebar"] * {{
@@ -31,37 +43,48 @@ st.markdown(f"""
     }}
     
     section[data-testid="stSidebar"] .stButton > button {{
-        background: rgba(255,255,255,0.15) !important;
-        border: 1px solid rgba(255,255,255,0.3) !important;
-        color: white !important;
+        background: transparent !important;
+        border: 2px solid {GOLD} !important;
+        color: {GOLD} !important;
+        border-radius: 8px !important;
     }}
     
     section[data-testid="stSidebar"] .stButton > button:hover {{
-        background: rgba(255,255,255,0.25) !important;
+        background: {GOLD} !important;
+        color: {DARK} !important;
     }}
     
     .main-container {{
         background: white;
-        border-radius: 25px;
-        padding: 0;
+        border-radius: 20px;
         margin: 1rem auto;
         max-width: 1100px;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        box-shadow: 0 0 50px rgba(255, 204, 0, 0.2);
         overflow: hidden;
+        border: 2px solid {GOLD};
     }}
     
     .hero-section {{
         display: flex;
-        min-height: 450px;
+        min-height: 480px;
     }}
     
     .hero-image {{
-        flex: 1;
+        flex: 1.2;
         background-image: url("{BG_IMAGE}");
         background-size: cover;
         background-position: center;
-        border-radius: 25px;
-        margin: 20px;
+        position: relative;
+    }}
+    
+    .hero-image::after {{
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100px;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, white);
     }}
     
     .hero-content {{
@@ -70,68 +93,72 @@ st.markdown(f"""
         display: flex;
         flex-direction: column;
         justify-content: center;
+        background: white;
     }}
     
     .app-logo {{
-        color: #1a5c4c;
-        font-size: 3rem;
+        color: {DARK};
+        font-size: 3.2rem;
         font-weight: 700;
-        margin-bottom: 0.5rem;
+        font-family: 'Playfair Display', serif;
+        margin-bottom: 0.3rem;
+    }}
+    
+    .app-logo span {{
+        color: {GOLD_DARK};
     }}
     
     .app-slogan {{
         color: #666;
-        font-size: 1rem;
+        font-size: 0.95rem;
         font-style: italic;
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
+        letter-spacing: 1px;
     }}
     
-    .divider {{
-        height: 3px;
-        background: linear-gradient(90deg, #c9a227 0%, #c9a227 30%, #e0e0e0 30%);
+    .gold-line {{
+        height: 4px;
+        width: 80px;
+        background: linear-gradient(90deg, {GOLD}, {GOLD_DARK});
         margin: 1.5rem 0;
-        border: none;
+        border-radius: 2px;
     }}
     
     .question-text {{
-        color: #333;
-        font-size: 1.3rem;
+        color: {DARK};
+        font-size: 1.4rem;
         font-weight: 500;
         margin-bottom: 1.5rem;
-    }}
-    
-    .choice-container {{
-        display: flex;
-        gap: 1.5rem;
-        margin-top: 1rem;
+        font-family: 'Playfair Display', serif;
     }}
     
     .choice-card {{
-        flex: 1;
-        background: #f8fafa;
-        border: 2px solid #e8f0ef;
-        border-radius: 20px;
-        padding: 2rem;
+        background: #fafafa;
+        border: 2px solid #e5e5e5;
+        border-radius: 15px;
+        padding: 2rem 1.5rem;
         text-align: center;
         transition: all 0.3s ease;
         cursor: pointer;
+        margin: 0.5rem;
     }}
     
     .choice-card:hover {{
-        border-color: #1a5c4c;
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(26,92,76,0.15);
+        border-color: {GOLD};
+        transform: translateY(-8px);
+        box-shadow: 0 15px 40px rgba(255, 204, 0, 0.25);
     }}
     
     .choice-icon {{
-        font-size: 3.5rem;
-        margin-bottom: 1rem;
+        font-size: 3rem;
+        margin-bottom: 0.8rem;
     }}
     
     .choice-title {{
-        color: #1a5c4c;
-        font-size: 1.2rem;
+        color: {DARK};
+        font-size: 1.3rem;
         font-weight: 600;
+        font-family: 'Playfair Display', serif;
     }}
     
     .choice-desc {{
@@ -142,65 +169,81 @@ st.markdown(f"""
     
     .content-card {{
         background: white;
-        border-radius: 20px;
+        border-radius: 15px;
         padding: 2rem;
         margin: 1rem 0;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+        border-top: 4px solid {GOLD};
     }}
     
     .section-title {{
-        color: #1a5c4c;
-        font-size: 1.5rem;
+        color: {DARK};
+        font-size: 1.6rem;
         font-weight: 600;
+        font-family: 'Playfair Display', serif;
         margin-bottom: 1.5rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 3px solid #c9a227;
-        display: inline-block;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+    }}
+    
+    .section-title::before {{
+        content: '';
+        width: 5px;
+        height: 30px;
+        background: {GOLD};
+        border-radius: 3px;
     }}
     
     .site-item {{
-        background: #f8fafa;
-        border-radius: 15px;
+        background: #fafafa;
+        border-radius: 12px;
         padding: 1.5rem;
         margin: 1rem 0;
-        border-left: 4px solid #1a5c4c;
+        border-left: 5px solid {GOLD};
         transition: all 0.2s;
     }}
     
     .site-item:hover {{
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        transform: translateX(5px);
     }}
     
     .site-name {{
-        color: #1a5c4c;
-        font-size: 1.2rem;
+        color: {DARK};
+        font-size: 1.25rem;
         font-weight: 600;
-        margin-bottom: 0.3rem;
+        font-family: 'Playfair Display', serif;
+        margin-bottom: 0.2rem;
     }}
     
     .site-location {{
-        color: #888;
+        color: #777;
         font-size: 0.9rem;
     }}
     
     .tag {{
         display: inline-block;
-        background: #1a5c4c;
-        color: white;
-        padding: 0.2rem 0.8rem;
-        border-radius: 15px;
+        background: {GOLD};
+        color: {DARK};
+        padding: 0.3rem 1rem;
+        border-radius: 20px;
         font-size: 0.75rem;
-        font-weight: 500;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }}
     
-    .tag-gold {{
-        background: #c9a227;
+    .tag-dark {{
+        background: {DARK};
+        color: {GOLD};
     }}
     
     .stat-box {{
-        background: linear-gradient(135deg, #1a5c4c, #0d3d31);
+        background: linear-gradient(135deg, {DARK}, {DARK_SOFT});
+        border: 2px solid {GOLD};
         color: white;
-        border-radius: 15px;
+        border-radius: 12px;
         padding: 1.5rem;
         text-align: center;
     }}
@@ -208,56 +251,86 @@ st.markdown(f"""
     .stat-number {{
         font-size: 2.5rem;
         font-weight: 700;
+        color: {GOLD};
+        font-family: 'Playfair Display', serif;
     }}
     
     .stat-label {{
-        font-size: 0.85rem;
-        opacity: 0.9;
+        font-size: 0.8rem;
+        color: #ccc;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 0.3rem;
     }}
     
     .footer-bar {{
-        background: #1a5c4c;
+        background: linear-gradient(90deg, {DARK}, {DARK_SOFT});
+        border: 2px solid {GOLD};
         color: white;
-        padding: 1rem 2rem;
-        border-radius: 15px;
+        padding: 1.2rem 2rem;
+        border-radius: 12px;
         text-align: center;
         margin-top: 2rem;
     }}
     
     .gold-badge {{
-        background: #c9a227;
-        color: white;
-        padding: 0.4rem 1.2rem;
-        border-radius: 20px;
-        font-weight: 600;
+        background: {GOLD};
+        color: {DARK};
+        padding: 0.5rem 1.5rem;
+        border-radius: 25px;
+        font-weight: 700;
         font-size: 0.9rem;
+        display: inline-block;
+        margin-top: 0.5rem;
     }}
     
     .stButton > button {{
-        background: #1a5c4c !important;
-        color: white !important;
+        background: {GOLD} !important;
+        color: {DARK} !important;
         border: none !important;
-        border-radius: 25px !important;
+        border-radius: 8px !important;
         padding: 0.7rem 2rem !important;
-        font-weight: 500 !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
         transition: all 0.3s !important;
     }}
     
     .stButton > button:hover {{
-        background: #c9a227 !important;
+        background: {GOLD_DARK} !important;
         transform: scale(1.02);
+        box-shadow: 0 5px 20px rgba(255, 204, 0, 0.4) !important;
     }}
     
     .stTextInput > div > div > input,
-    .stTextArea > div > div > textarea,
-    .stSelectbox > div > div {{
-        border-radius: 12px !important;
-        border: 2px solid #e0e0e0 !important;
+    .stTextArea > div > div > textarea {{
+        border-radius: 8px !important;
+        border: 2px solid #ddd !important;
+        background: white !important;
     }}
     
     .stTextInput > div > div > input:focus,
     .stTextArea > div > div > textarea:focus {{
-        border-color: #1a5c4c !important;
+        border-color: {GOLD} !important;
+        box-shadow: 0 0 10px rgba(255, 204, 0, 0.3) !important;
+    }}
+    
+    .stSelectbox > div > div {{
+        border-radius: 8px !important;
+    }}
+    
+    .metric-container {{
+        background: white;
+        border-radius: 10px;
+        padding: 1rem;
+        border-left: 4px solid {GOLD};
+    }}
+    
+    [data-testid="metric-container"] {{
+        background: white;
+        border-radius: 10px;
+        padding: 1rem;
+        border-left: 4px solid {GOLD};
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -292,24 +365,24 @@ if 'page' not in st.session_state:
 def get_df():
     return pd.DataFrame(st.session_state.sites)
 
-# =============== PAGE ACCUEIL - CHOIX RÔLE ===============
+# =============== PAGE ACCUEIL ===============
 if st.session_state.role is None:
     st.markdown(f"""
     <div class="main-container">
         <div class="hero-section">
             <div class="hero-image"></div>
             <div class="hero-content">
-                <div class="app-logo">🇨🇲 TANAP</div>
-                <div class="app-slogan">Découvrez les merveilles du Cameroun, l'Afrique en miniature</div>
-                <div class="divider"></div>
-                <div class="question-text">Qui êtes-vous ?</div>
-                <div class="choice-container">
-                    <div class="choice-card" id="tourist-card">
+                <div class="app-logo">🇨🇲 <span>TANAP</span></div>
+                <div class="app-slogan">Tourisme Authentique et Naturel en Afrique - Portail Cameroun</div>
+                <div class="gold-line"></div>
+                <div class="question-text">Bienvenue ! Qui êtes-vous ?</div>
+                <div style="display: flex; gap: 1rem;">
+                    <div class="choice-card" style="flex: 1;">
                         <div class="choice-icon">🧳</div>
                         <div class="choice-title">Touriste</div>
                         <div class="choice-desc">Je recherche des sites à visiter</div>
                     </div>
-                    <div class="choice-card" id="owner-card">
+                    <div class="choice-card" style="flex: 1;">
                         <div class="choice-icon">🏠</div>
                         <div class="choice-title">Propriétaire</div>
                         <div class="choice-desc">Je veux référencer mon site</div>
@@ -320,17 +393,16 @@ if st.session_state.role is None:
     </div>
     """, unsafe_allow_html=True)
     
-    # Boutons (cachés visuellement mais fonctionnels)
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         c1, c2 = st.columns(2)
         with c1:
-            if st.button("Je suis Touriste", use_container_width=True):
+            if st.button("ENTRER COMME TOURISTE", use_container_width=True):
                 st.session_state.role = 'touriste'
                 st.session_state.page = 'explorer'
                 st.rerun()
         with c2:
-            if st.button("Je suis Propriétaire", use_container_width=True):
+            if st.button("ENTRER COMME PROPRIÉTAIRE", use_container_width=True):
                 st.session_state.role = 'proprietaire'
                 st.session_state.page = 'enregistrer'
                 st.rerun()
@@ -338,46 +410,43 @@ if st.session_state.role is None:
     st.markdown("""
     <div style="text-align: center; margin-top: 2rem;">
         <div class="footer-bar">
-            📚 TP INF232 EC2 - Collecte et Analyse de Données<br>
-            <span class="gold-badge" style="margin-top: 0.5rem; display: inline-block;">24F2551 | NDOUMA NANG SOSTHENE ASTIN</span>
+            📚 <strong>TP INF232 EC2</strong> - Application de Collecte et Analyse de Données<br>
+            <span class="gold-badge">MATRICULE: 24F2551 | NDOUMA NANG SOSTHENE ASTIN</span>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-# =============== PAGES APRÈS CONNEXION ===============
+# =============== PAGES INTERNES ===============
 else:
-    # Sidebar
     with st.sidebar:
-        st.markdown("### 🇨🇲 TANAP")
-        st.markdown(f"**Profil:** {st.session_state.role.capitalize()}")
+        st.markdown(f"### 🇨🇲 **TANAP**")
+        st.markdown(f"*{st.session_state.role.upper()}*")
         st.markdown("---")
         
-        if st.button("🏠 Accueil", use_container_width=True):
+        if st.button("🏠 ACCUEIL", use_container_width=True):
             st.session_state.page = 'accueil'
-        if st.button("🔍 Explorer", use_container_width=True):
+        if st.button("🔍 EXPLORER", use_container_width=True):
             st.session_state.page = 'explorer'
-        if st.button("📝 Enregistrer", use_container_width=True):
+        if st.button("📝 ENREGISTRER", use_container_width=True):
             st.session_state.page = 'enregistrer'
-        if st.button("📊 Dashboard", use_container_width=True):
+        if st.button("📊 DASHBOARD", use_container_width=True):
             st.session_state.page = 'dashboard'
         
         st.markdown("---")
-        if st.button("🔄 Changer profil", use_container_width=True):
+        if st.button("🔄 CHANGER PROFIL", use_container_width=True):
             st.session_state.role = None
             st.rerun()
         
         st.markdown("---")
-        st.markdown("**Matricule:** 24F2551")
-        st.markdown("**NDOUMA NANG**")
-        st.markdown("**SOSTHENE ASTIN**")
+        st.markdown("**24F2551**")
+        st.markdown("NDOUMA NANG")
+        st.markdown("SOSTHENE ASTIN")
     
     df = get_df()
     
-    # PAGE ACCUEIL
     if st.session_state.page == 'accueil':
         st.markdown('<div class="content-card">', unsafe_allow_html=True)
-        st.markdown('<div class="section-title">Bienvenue sur TANAP</div>', unsafe_allow_html=True)
-        st.write(f"Vous êtes connecté en tant que **{st.session_state.role}**. Explorez le Cameroun !")
+        st.markdown('<div class="section-title">Tableau de Bord</div>', unsafe_allow_html=True)
         
         c1, c2, c3, c4 = st.columns(4)
         with c1:
@@ -385,15 +454,14 @@ else:
         with c2:
             st.markdown(f'<div class="stat-box"><div class="stat-number">{df["region"].nunique()}</div><div class="stat-label">Régions</div></div>', unsafe_allow_html=True)
         with c3:
-            st.markdown(f'<div class="stat-box"><div class="stat-number">{df["note"].mean():.1f}</div><div class="stat-label">Note moy.</div></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="stat-box"><div class="stat-number">{df["note"].mean():.1f}</div><div class="stat-label">Note Moy.</div></div>', unsafe_allow_html=True)
         with c4:
             st.markdown(f'<div class="stat-box"><div class="stat-number">{df["avis"].sum()}</div><div class="stat-label">Avis</div></div>', unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
     
-    # PAGE EXPLORER
     elif st.session_state.page == 'explorer':
         st.markdown('<div class="content-card">', unsafe_allow_html=True)
-        st.markdown('<div class="section-title">Explorer les Sites</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">Explorer les Sites Touristiques</div>', unsafe_allow_html=True)
         
         col1, col2, col3 = st.columns(3)
         with col1:
@@ -416,7 +484,7 @@ else:
         else:
             filtered = filtered.sort_values('avis', ascending=False)
         
-        st.markdown(f"**{len(filtered)} site(s) trouvé(s)**")
+        st.markdown(f"**{len(filtered)} site(s)**")
         st.markdown('</div>', unsafe_allow_html=True)
         
         for _, site in filtered.iterrows():
@@ -429,7 +497,7 @@ else:
                     </div>
                     <span class="tag">{site['categorie']}</span>
                 </div>
-                <p style="color: #555; margin: 1rem 0;">{site['description']}</p>
+                <p style="color: #555; margin: 1rem 0; line-height: 1.6;">{site['description']}</p>
                 <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; font-size: 0.9rem; color: #666;">
                     <span>💰 <strong>{site['prix']:,} FCFA</strong></span>
                     <span>⭐ <strong>{site['note']}/5</strong> ({site['avis']} avis)</span>
@@ -439,14 +507,12 @@ else:
             </div>
             """, unsafe_allow_html=True)
     
-    # PAGE ENREGISTRER
     elif st.session_state.page == 'enregistrer':
         st.markdown('<div class="content-card">', unsafe_allow_html=True)
-        st.markdown('<div class="section-title">Enregistrer un Site</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">Enregistrer Votre Site</div>', unsafe_allow_html=True)
         
-        with st.form("site_form"):
+        with st.form("form"):
             nom = st.text_input("🏛️ Nom du site *")
-            
             col1, col2 = st.columns(2)
             with col1:
                 region = st.selectbox("📍 Région *", ["Centre", "Littoral", "Ouest", "Sud", "Sud-Ouest", "Nord-Ouest", "Est", "Adamaoua", "Nord", "Extrême-Nord"])
@@ -459,9 +525,9 @@ else:
             
             email = st.text_input("✉️ Email")
             description = st.text_area("📝 Description *")
-            proprietaire = st.text_input("👤 Votre nom *")
+            proprietaire = st.text_input("👤 Votre nom complet *")
             
-            if st.form_submit_button("✅ Enregistrer", use_container_width=True):
+            if st.form_submit_button("✅ ENREGISTRER LE SITE", use_container_width=True):
                 if nom and ville and description and proprietaire:
                     new = {"id": len(st.session_state.sites)+1, "nom": nom, "region": region, "ville": ville,
                            "categorie": categorie, "description": description, "prix": prix, "horaires": horaires,
@@ -470,42 +536,37 @@ else:
                     st.success(f"✅ '{nom}' enregistré avec succès !")
                     st.balloons()
                 else:
-                    st.error("⚠️ Remplissez les champs obligatoires (*)")
+                    st.error("⚠️ Remplissez les champs obligatoires")
         st.markdown('</div>', unsafe_allow_html=True)
     
-    # PAGE DASHBOARD (SANS MOT DE PASSE)
     elif st.session_state.page == 'dashboard':
         st.markdown('<div class="content-card">', unsafe_allow_html=True)
-        st.markdown('<div class="section-title">📊 Tableau de Bord Analytique</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">Analyse des Données</div>', unsafe_allow_html=True)
         
-        # KPIs
         c1, c2, c3, c4, c5 = st.columns(5)
         c1.metric("Sites", len(df))
         c2.metric("Régions", df['region'].nunique())
         c3.metric("Catégories", df['categorie'].nunique())
         c4.metric("Note Moy.", f"{df['note'].mean():.2f}")
-        c5.metric("Total Avis", df['avis'].sum())
+        c5.metric("Avis Total", df['avis'].sum())
         st.markdown('</div>', unsafe_allow_html=True)
         
-        # Graphiques
         col1, col2 = st.columns(2)
         with col1:
             st.markdown('<div class="content-card">', unsafe_allow_html=True)
-            st.markdown("**Répartition par Région**")
-            fig = px.pie(df, names='region', hole=0.4, color_discrete_sequence=px.colors.sequential.Teal)
-            fig.update_layout(margin=dict(t=20, b=20, l=20, r=20), paper_bgcolor='rgba(0,0,0,0)')
+            fig = px.pie(df, names='region', title="Répartition par Région", 
+                        color_discrete_sequence=['#FFCC00', '#D4A900', '#FFE066', '#B8960A', '#FFDB4D'])
+            fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', font_color='#333')
             st.plotly_chart(fig, use_container_width=True)
             st.markdown('</div>', unsafe_allow_html=True)
         
         with col2:
             st.markdown('<div class="content-card">', unsafe_allow_html=True)
-            st.markdown("**Sites par Catégorie**")
-            fig = px.bar(df['categorie'].value_counts(), color_discrete_sequence=['#1a5c4c'])
-            fig.update_layout(margin=dict(t=20, b=20, l=20, r=20), paper_bgcolor='rgba(0,0,0,0)', showlegend=False)
+            fig = px.bar(df, x='nom', y='note', title="Notes par Site", color_discrete_sequence=['#FFCC00'])
+            fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', font_color='#333')
             st.plotly_chart(fig, use_container_width=True)
             st.markdown('</div>', unsafe_allow_html=True)
         
-        # Stats descriptives
         st.markdown('<div class="content-card">', unsafe_allow_html=True)
         st.markdown("**Statistiques Descriptives**")
         stats = df[['prix', 'note', 'avis']].describe()
@@ -513,19 +574,16 @@ else:
         st.dataframe(stats.round(2), use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
         
-        # Données
         st.markdown('<div class="content-card">', unsafe_allow_html=True)
-        st.markdown("**Base de Données**")
+        st.markdown("**Données Complètes**")
         st.dataframe(df[['nom', 'region', 'ville', 'categorie', 'prix', 'note', 'avis']], use_container_width=True, hide_index=True)
-        
         csv = df.to_csv(index=False).encode('utf-8')
-        st.download_button("📥 Exporter CSV", csv, "tanap_data.csv", use_container_width=True)
+        st.download_button("📥 EXPORTER CSV", csv, "tanap_data.csv", use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
     
-    # Footer
     st.markdown("""
     <div class="footer-bar">
-        🇨🇲 <strong>TANAP</strong> - Guide Touristique Camerounais | TP INF232 EC2<br>
+        🇨🇲 <strong>TANAP</strong> - Guide Touristique Camerounais<br>
         <span class="gold-badge">24F2551 | NDOUMA NANG SOSTHENE ASTIN</span>
     </div>
     """, unsafe_allow_html=True)
