@@ -3,334 +3,313 @@ import pandas as pd
 import plotly.express as px
 from datetime import datetime
 
-# Config
 st.set_page_config(page_title="TANAP - Cameroun", page_icon="🇨🇲", layout="wide")
 
 # REMPLACEZ PAR VOTRE LIEN IMAGE
 BG_IMAGE = "https://raw.githubusercontent.com/astinndouma24-a11y/24F2551-NDOUMA-NANG-SOSTHENE-ASTIN/main/image%20de%20fond.jpg"
 
-# PANTONE 116 C = #FFCC00 (Or)
-GOLD = "#FFCC00"
-GOLD_DARK = "#D4A900"
-GOLD_LIGHT = "#FFE066"
-DARK = "#1a1a1a"
-DARK_SOFT = "#2d2d2d"
-
-# CSS Thème Or Premium
+# CSS - Or transparent + Texte lisible
 st.markdown(f"""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap');
     
     * {{
-        font-family: 'Montserrat', sans-serif;
+        font-family: Calibri, 'Segoe UI', Arial, sans-serif;
     }}
     
-    h1, h2, h3, .title {{
-        font-family: 'Playfair Display', serif !important;
+    h1, h2, h3, .titre {{
+        font-family: 'Times New Roman', 'Libre Baskerville', Georgia, serif !important;
     }}
     
     .stApp {{
-        background: linear-gradient(135deg, {DARK} 0%, {DARK_SOFT} 100%);
+        background-color: #f5f5f0;
     }}
     
+    /* Sidebar */
     section[data-testid="stSidebar"] {{
-        background: linear-gradient(180deg, {DARK} 0%, #0a0a0a 100%);
-        border-right: 2px solid {GOLD};
+        background: linear-gradient(180deg, #2c2c2c 0%, #1a1a1a 100%);
+        border-right: 3px solid #FFCC00;
     }}
     
     section[data-testid="stSidebar"] * {{
-        color: white !important;
+        color: #ffffff !important;
+        font-family: Calibri, Arial, sans-serif !important;
     }}
     
     section[data-testid="stSidebar"] .stButton > button {{
         background: transparent !important;
-        border: 2px solid {GOLD} !important;
-        color: {GOLD} !important;
-        border-radius: 8px !important;
+        border: 2px solid #FFCC00 !important;
+        color: #FFCC00 !important;
+        border-radius: 5px !important;
+        font-weight: bold !important;
     }}
     
     section[data-testid="stSidebar"] .stButton > button:hover {{
-        background: {GOLD} !important;
-        color: {DARK} !important;
+        background: #FFCC00 !important;
+        color: #1a1a1a !important;
     }}
     
-    .main-container {{
-        background: white;
-        border-radius: 20px;
+    /* Container principal */
+    .main-box {{
+        background: rgba(255, 255, 255, 0.95);
+        border: 3px solid #FFCC00;
+        border-radius: 15px;
+        padding: 0;
         margin: 1rem auto;
         max-width: 1100px;
-        box-shadow: 0 0 50px rgba(255, 204, 0, 0.2);
+        box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
         overflow: hidden;
-        border: 2px solid {GOLD};
     }}
     
-    .hero-section {{
+    /* Hero section */
+    .hero-wrapper {{
         display: flex;
-        min-height: 480px;
+        min-height: 450px;
     }}
     
-    .hero-image {{
-        flex: 1.2;
+    .hero-img {{
+        flex: 1;
         background-image: url("{BG_IMAGE}");
         background-size: cover;
         background-position: center;
-        position: relative;
     }}
     
-    .hero-image::after {{
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 100px;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, white);
-    }}
-    
-    .hero-content {{
+    .hero-text {{
         flex: 1;
-        padding: 3rem;
+        padding: 2.5rem;
+        background: #ffffff;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        background: white;
     }}
     
-    .app-logo {{
-        color: {DARK};
-        font-size: 3.2rem;
-        font-weight: 700;
-        font-family: 'Playfair Display', serif;
-        margin-bottom: 0.3rem;
+    .logo-titre {{
+        font-family: 'Times New Roman', Georgia, serif;
+        font-size: 2.8rem;
+        font-weight: bold;
+        color: #1a1a1a;
+        margin-bottom: 0.5rem;
     }}
     
-    .app-logo span {{
-        color: {GOLD_DARK};
+    .logo-titre span {{
+        color: #D4A900;
     }}
     
-    .app-slogan {{
-        color: #666;
-        font-size: 0.95rem;
+    .slogan {{
+        font-family: Calibri, Arial, sans-serif;
+        font-size: 1rem;
+        color: #555555;
         font-style: italic;
         margin-bottom: 1.5rem;
-        letter-spacing: 1px;
     }}
     
-    .gold-line {{
+    .ligne-or {{
+        width: 60px;
         height: 4px;
-        width: 80px;
-        background: linear-gradient(90deg, {GOLD}, {GOLD_DARK});
-        margin: 1.5rem 0;
-        border-radius: 2px;
-    }}
-    
-    .question-text {{
-        color: {DARK};
-        font-size: 1.4rem;
-        font-weight: 500;
-        margin-bottom: 1.5rem;
-        font-family: 'Playfair Display', serif;
-    }}
-    
-    .choice-card {{
-        background: #fafafa;
-        border: 2px solid #e5e5e5;
-        border-radius: 15px;
-        padding: 2rem 1.5rem;
-        text-align: center;
-        transition: all 0.3s ease;
-        cursor: pointer;
-        margin: 0.5rem;
-    }}
-    
-    .choice-card:hover {{
-        border-color: {GOLD};
-        transform: translateY(-8px);
-        box-shadow: 0 15px 40px rgba(255, 204, 0, 0.25);
-    }}
-    
-    .choice-icon {{
-        font-size: 3rem;
-        margin-bottom: 0.8rem;
-    }}
-    
-    .choice-title {{
-        color: {DARK};
-        font-size: 1.3rem;
-        font-weight: 600;
-        font-family: 'Playfair Display', serif;
-    }}
-    
-    .choice-desc {{
-        color: #888;
-        font-size: 0.85rem;
-        margin-top: 0.5rem;
-    }}
-    
-    .content-card {{
-        background: white;
-        border-radius: 15px;
-        padding: 2rem;
+        background: #FFCC00;
         margin: 1rem 0;
-        box-shadow: 0 5px 30px rgba(0,0,0,0.3);
-        border-top: 4px solid {GOLD};
     }}
     
-    .section-title {{
-        color: {DARK};
-        font-size: 1.6rem;
-        font-weight: 600;
-        font-family: 'Playfair Display', serif;
+    .question {{
+        font-family: 'Times New Roman', Georgia, serif;
+        font-size: 1.5rem;
+        color: #1a1a1a;
         margin-bottom: 1.5rem;
+    }}
+    
+    /* Cartes de choix */
+    .choix-box {{
         display: flex;
-        align-items: center;
-        gap: 0.8rem;
+        gap: 1rem;
     }}
     
-    .section-title::before {{
-        content: '';
-        width: 5px;
-        height: 30px;
-        background: {GOLD};
-        border-radius: 3px;
-    }}
-    
-    .site-item {{
-        background: #fafafa;
-        border-radius: 12px;
-        padding: 1.5rem;
-        margin: 1rem 0;
-        border-left: 5px solid {GOLD};
-        transition: all 0.2s;
-    }}
-    
-    .site-item:hover {{
-        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-        transform: translateX(5px);
-    }}
-    
-    .site-name {{
-        color: {DARK};
-        font-size: 1.25rem;
-        font-weight: 600;
-        font-family: 'Playfair Display', serif;
-        margin-bottom: 0.2rem;
-    }}
-    
-    .site-location {{
-        color: #777;
-        font-size: 0.9rem;
-    }}
-    
-    .tag {{
-        display: inline-block;
-        background: {GOLD};
-        color: {DARK};
-        padding: 0.3rem 1rem;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }}
-    
-    .tag-dark {{
-        background: {DARK};
-        color: {GOLD};
-    }}
-    
-    .stat-box {{
-        background: linear-gradient(135deg, {DARK}, {DARK_SOFT});
-        border: 2px solid {GOLD};
-        color: white;
-        border-radius: 12px;
+    .choix-carte {{
+        flex: 1;
+        background: #fffef5;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
         padding: 1.5rem;
         text-align: center;
+        transition: all 0.3s;
     }}
     
-    .stat-number {{
+    .choix-carte:hover {{
+        border-color: #FFCC00;
+        box-shadow: 0 8px 25px rgba(255, 204, 0, 0.2);
+        transform: translateY(-5px);
+    }}
+    
+    .choix-icone {{
         font-size: 2.5rem;
-        font-weight: 700;
-        color: {GOLD};
-        font-family: 'Playfair Display', serif;
+        margin-bottom: 0.5rem;
     }}
     
-    .stat-label {{
-        font-size: 0.8rem;
-        color: #ccc;
-        text-transform: uppercase;
-        letter-spacing: 1px;
+    .choix-titre {{
+        font-family: 'Times New Roman', Georgia, serif;
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #1a1a1a;
+    }}
+    
+    .choix-desc {{
+        font-family: Calibri, Arial, sans-serif;
+        font-size: 0.9rem;
+        color: #666666;
         margin-top: 0.3rem;
     }}
     
-    .footer-bar {{
-        background: linear-gradient(90deg, {DARK}, {DARK_SOFT});
-        border: 2px solid {GOLD};
-        color: white;
-        padding: 1.2rem 2rem;
-        border-radius: 12px;
+    /* Contenu pages */
+    .page-carte {{
+        background: #ffffff;
+        border: 2px solid #FFCC00;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+    }}
+    
+    .page-titre {{
+        font-family: 'Times New Roman', Georgia, serif;
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: #1a1a1a;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 3px solid #FFCC00;
+    }}
+    
+    /* Liste des sites */
+    .site-carte {{
+        background: #fffef8;
+        border-left: 4px solid #FFCC00;
+        border-radius: 8px;
+        padding: 1.2rem;
+        margin: 0.8rem 0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }}
+    
+    .site-nom {{
+        font-family: 'Times New Roman', Georgia, serif;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #1a1a1a;
+        margin-bottom: 0.2rem;
+    }}
+    
+    .site-lieu {{
+        font-family: Calibri, Arial, sans-serif;
+        font-size: 0.9rem;
+        color: #666666;
+    }}
+    
+    .site-desc {{
+        font-family: Calibri, Arial, sans-serif;
+        font-size: 0.95rem;
+        color: #444444;
+        margin: 0.8rem 0;
+        line-height: 1.5;
+    }}
+    
+    .site-infos {{
+        font-family: Calibri, Arial, sans-serif;
+        font-size: 0.9rem;
+        color: #555555;
+    }}
+    
+    .etiquette {{
+        display: inline-block;
+        background: #FFCC00;
+        color: #1a1a1a;
+        padding: 0.2rem 0.7rem;
+        border-radius: 15px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        font-family: Calibri, Arial, sans-serif;
+    }}
+    
+    /* Stats */
+    .stat-boite {{
+        background: linear-gradient(135deg, #2c2c2c, #1a1a1a);
+        border: 2px solid #FFCC00;
+        border-radius: 10px;
+        padding: 1.2rem;
+        text-align: center;
+    }}
+    
+    .stat-chiffre {{
+        font-family: 'Times New Roman', Georgia, serif;
+        font-size: 2rem;
+        font-weight: bold;
+        color: #FFCC00;
+    }}
+    
+    .stat-texte {{
+        font-family: Calibri, Arial, sans-serif;
+        font-size: 0.8rem;
+        color: #cccccc;
+        text-transform: uppercase;
+    }}
+    
+    /* Footer */
+    .pied-page {{
+        background: #2c2c2c;
+        border: 2px solid #FFCC00;
+        border-radius: 10px;
+        padding: 1rem;
         text-align: center;
         margin-top: 2rem;
     }}
     
-    .gold-badge {{
-        background: {GOLD};
-        color: {DARK};
-        padding: 0.5rem 1.5rem;
-        border-radius: 25px;
-        font-weight: 700;
-        font-size: 0.9rem;
+    .pied-page p {{
+        font-family: Calibri, Arial, sans-serif;
+        color: #ffffff;
+        margin: 0.3rem 0;
+    }}
+    
+    .badge-or {{
         display: inline-block;
+        background: #FFCC00;
+        color: #1a1a1a;
+        padding: 0.4rem 1rem;
+        border-radius: 20px;
+        font-family: Calibri, Arial, sans-serif;
+        font-weight: bold;
+        font-size: 0.9rem;
         margin-top: 0.5rem;
     }}
     
+    /* Boutons */
     .stButton > button {{
-        background: {GOLD} !important;
-        color: {DARK} !important;
+        background: #FFCC00 !important;
+        color: #1a1a1a !important;
         border: none !important;
-        border-radius: 8px !important;
-        padding: 0.7rem 2rem !important;
-        font-weight: 600 !important;
-        text-transform: uppercase !important;
-        letter-spacing: 1px !important;
-        transition: all 0.3s !important;
+        border-radius: 5px !important;
+        font-family: Calibri, Arial, sans-serif !important;
+        font-weight: bold !important;
+        padding: 0.6rem 1.5rem !important;
     }}
     
     .stButton > button:hover {{
-        background: {GOLD_DARK} !important;
-        transform: scale(1.02);
-        box-shadow: 0 5px 20px rgba(255, 204, 0, 0.4) !important;
+        background: #D4A900 !important;
     }}
     
+    /* Inputs */
     .stTextInput > div > div > input,
     .stTextArea > div > div > textarea {{
-        border-radius: 8px !important;
-        border: 2px solid #ddd !important;
-        background: white !important;
+        font-family: Calibri, Arial, sans-serif !important;
+        border: 2px solid #dddddd !important;
+        border-radius: 5px !important;
     }}
     
     .stTextInput > div > div > input:focus,
     .stTextArea > div > div > textarea:focus {{
-        border-color: {GOLD} !important;
-        box-shadow: 0 0 10px rgba(255, 204, 0, 0.3) !important;
+        border-color: #FFCC00 !important;
     }}
     
-    .stSelectbox > div > div {{
-        border-radius: 8px !important;
-    }}
-    
-    .metric-container {{
-        background: white;
-        border-radius: 10px;
-        padding: 1rem;
-        border-left: 4px solid {GOLD};
-    }}
-    
-    [data-testid="metric-container"] {{
-        background: white;
-        border-radius: 10px;
-        padding: 1rem;
-        border-left: 4px solid {GOLD};
+    /* Labels */
+    .stTextInput > label, .stTextArea > label, .stSelectbox > label {{
+        font-family: Calibri, Arial, sans-serif !important;
+        color: #1a1a1a !important;
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -338,7 +317,7 @@ st.markdown(f"""
 # Données
 SITES = [
     {"id": 1, "nom": "Monument de la Réunification", "region": "Centre", "ville": "Yaoundé", 
-     "categorie": "Monument", "description": "Symbole de l'unité nationale camerounaise, érigé en 1972 pour commémorer la réunification.", 
+     "categorie": "Monument", "description": "Symbole de l'unité nationale camerounaise, érigé en 1972.", 
      "prix": 500, "horaires": "08h - 17h", "contact": "+237 677 12 34 56", "email": "info@monument.cm", "note": 4.5, "avis": 38},
     {"id": 2, "nom": "Chutes de la Lobé", "region": "Sud", "ville": "Kribi",
      "categorie": "Nature", "description": "Chutes uniques se jetant directement dans l'océan Atlantique.",
@@ -347,14 +326,13 @@ SITES = [
      "categorie": "Culture", "description": "Résidence du Sultan, musée d'art et d'histoire Bamoun.",
      "prix": 2000, "horaires": "09h - 16h", "contact": "+237 655 78 90 12", "email": "palais@foumban.cm", "note": 4.6, "avis": 22},
     {"id": 4, "nom": "Mont Cameroun", "region": "Sud-Ouest", "ville": "Buéa",
-     "categorie": "Nature", "description": "Plus haut sommet d'Afrique de l'Ouest, randonnées guidées disponibles.",
-     "prix": 5000, "horaires": "06h - 15h", "contact": "+237 670 23 45 67", "email": "montcam@guide.cm", "note": 4.7, "avis": 15},
+     "categorie": "Nature", "description": "Plus haut sommet d'Afrique de l'Ouest, randonnées guidées.",
+     "prix": 5000, "horaires": "06h - 15h", "contact": "+237 670 23 45 67", "email": "mont@guide.cm", "note": 4.7, "avis": 15},
     {"id": 5, "nom": "Parc National de Waza", "region": "Extrême-Nord", "ville": "Waza",
-     "categorie": "Safari", "description": "Safari authentique : éléphants, lions, girafes.",
+     "categorie": "Safari", "description": "Safari authentique avec éléphants, lions et girafes.",
      "prix": 3000, "horaires": "06h - 18h", "contact": "+237 622 56 78 90", "email": "waza@parcs.cm", "note": 4.4, "avis": 12},
 ]
 
-# Session
 if 'sites' not in st.session_state:
     st.session_state.sites = SITES.copy()
 if 'role' not in st.session_state:
@@ -365,27 +343,27 @@ if 'page' not in st.session_state:
 def get_df():
     return pd.DataFrame(st.session_state.sites)
 
-# =============== PAGE ACCUEIL ===============
+# ============ ACCUEIL - CHOIX ============
 if st.session_state.role is None:
     st.markdown(f"""
-    <div class="main-container">
-        <div class="hero-section">
-            <div class="hero-image"></div>
-            <div class="hero-content">
-                <div class="app-logo">🇨🇲 <span>TANAP</span></div>
-                <div class="app-slogan">Tourisme Authentique et Naturel en Afrique - Portail Cameroun</div>
-                <div class="gold-line"></div>
-                <div class="question-text">Bienvenue ! Qui êtes-vous ?</div>
-                <div style="display: flex; gap: 1rem;">
-                    <div class="choice-card" style="flex: 1;">
-                        <div class="choice-icon">🧳</div>
-                        <div class="choice-title">Touriste</div>
-                        <div class="choice-desc">Je recherche des sites à visiter</div>
+    <div class="main-box">
+        <div class="hero-wrapper">
+            <div class="hero-img"></div>
+            <div class="hero-text">
+                <div class="logo-titre">🇨🇲 <span>TANAP</span></div>
+                <div class="slogan">Tourisme Authentique et Naturel en Afrique - Portail Cameroun</div>
+                <div class="ligne-or"></div>
+                <div class="question">Bienvenue ! Qui êtes-vous ?</div>
+                <div class="choix-box">
+                    <div class="choix-carte">
+                        <div class="choix-icone">🧳</div>
+                        <div class="choix-titre">Touriste</div>
+                        <div class="choix-desc">Je recherche des sites à visiter</div>
                     </div>
-                    <div class="choice-card" style="flex: 1;">
-                        <div class="choice-icon">🏠</div>
-                        <div class="choice-title">Propriétaire</div>
-                        <div class="choice-desc">Je veux référencer mon site</div>
+                    <div class="choix-carte">
+                        <div class="choix-icone">🏠</div>
+                        <div class="choix-titre">Propriétaire</div>
+                        <div class="choix-desc">Je référence mon site touristique</div>
                     </div>
                 </div>
             </div>
@@ -397,79 +375,80 @@ if st.session_state.role is None:
     with col2:
         c1, c2 = st.columns(2)
         with c1:
-            if st.button("ENTRER COMME TOURISTE", use_container_width=True):
+            if st.button("Entrer comme Touriste", use_container_width=True):
                 st.session_state.role = 'touriste'
                 st.session_state.page = 'explorer'
                 st.rerun()
         with c2:
-            if st.button("ENTRER COMME PROPRIÉTAIRE", use_container_width=True):
+            if st.button("Entrer comme Propriétaire", use_container_width=True):
                 st.session_state.role = 'proprietaire'
                 st.session_state.page = 'enregistrer'
                 st.rerun()
     
     st.markdown("""
-    <div style="text-align: center; margin-top: 2rem;">
-        <div class="footer-bar">
-            📚 <strong>TP INF232 EC2</strong> - Application de Collecte et Analyse de Données<br>
-            <span class="gold-badge">MATRICULE: 24F2551 | NDOUMA NANG SOSTHENE ASTIN</span>
-        </div>
+    <div class="pied-page">
+        <p><strong>TP INF232 EC2</strong> - Application de Collecte et Analyse de Données</p>
+        <span class="badge-or">Matricule: 24F2551 | NDOUMA NANG SOSTHENE ASTIN</span>
     </div>
     """, unsafe_allow_html=True)
 
-# =============== PAGES INTERNES ===============
+# ============ PAGES INTERNES ============
 else:
     with st.sidebar:
-        st.markdown(f"### 🇨🇲 **TANAP**")
-        st.markdown(f"*{st.session_state.role.upper()}*")
+        st.markdown("### 🇨🇲 TANAP")
+        st.markdown(f"**Profil:** {st.session_state.role.capitalize()}")
         st.markdown("---")
         
-        if st.button("🏠 ACCUEIL", use_container_width=True):
+        if st.button("🏠 Accueil", use_container_width=True):
             st.session_state.page = 'accueil'
-        if st.button("🔍 EXPLORER", use_container_width=True):
+        if st.button("🔍 Explorer", use_container_width=True):
             st.session_state.page = 'explorer'
-        if st.button("📝 ENREGISTRER", use_container_width=True):
+        if st.button("📝 Enregistrer", use_container_width=True):
             st.session_state.page = 'enregistrer'
-        if st.button("📊 DASHBOARD", use_container_width=True):
+        if st.button("📊 Dashboard", use_container_width=True):
             st.session_state.page = 'dashboard'
         
         st.markdown("---")
-        if st.button("🔄 CHANGER PROFIL", use_container_width=True):
+        if st.button("🔄 Changer profil", use_container_width=True):
             st.session_state.role = None
             st.rerun()
         
         st.markdown("---")
-        st.markdown("**24F2551**")
+        st.markdown("**Matricule:** 24F2551")
         st.markdown("NDOUMA NANG")
         st.markdown("SOSTHENE ASTIN")
     
     df = get_df()
     
+    # ACCUEIL
     if st.session_state.page == 'accueil':
-        st.markdown('<div class="content-card">', unsafe_allow_html=True)
-        st.markdown('<div class="section-title">Tableau de Bord</div>', unsafe_allow_html=True)
+        st.markdown('<div class="page-carte">', unsafe_allow_html=True)
+        st.markdown('<div class="page-titre">Bienvenue sur TANAP</div>', unsafe_allow_html=True)
+        st.write(f"Vous êtes connecté en tant que **{st.session_state.role}**.")
         
         c1, c2, c3, c4 = st.columns(4)
         with c1:
-            st.markdown(f'<div class="stat-box"><div class="stat-number">{len(df)}</div><div class="stat-label">Sites</div></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="stat-boite"><div class="stat-chiffre">{len(df)}</div><div class="stat-texte">Sites</div></div>', unsafe_allow_html=True)
         with c2:
-            st.markdown(f'<div class="stat-box"><div class="stat-number">{df["region"].nunique()}</div><div class="stat-label">Régions</div></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="stat-boite"><div class="stat-chiffre">{df["region"].nunique()}</div><div class="stat-texte">Régions</div></div>', unsafe_allow_html=True)
         with c3:
-            st.markdown(f'<div class="stat-box"><div class="stat-number">{df["note"].mean():.1f}</div><div class="stat-label">Note Moy.</div></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="stat-boite"><div class="stat-chiffre">{df["note"].mean():.1f}</div><div class="stat-texte">Note Moy.</div></div>', unsafe_allow_html=True)
         with c4:
-            st.markdown(f'<div class="stat-box"><div class="stat-number">{df["avis"].sum()}</div><div class="stat-label">Avis</div></div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="stat-boite"><div class="stat-chiffre">{df["avis"].sum()}</div><div class="stat-texte">Avis</div></div>', unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
     
+    # EXPLORER
     elif st.session_state.page == 'explorer':
-        st.markdown('<div class="content-card">', unsafe_allow_html=True)
-        st.markdown('<div class="section-title">Explorer les Sites Touristiques</div>', unsafe_allow_html=True)
+        st.markdown('<div class="page-carte">', unsafe_allow_html=True)
+        st.markdown('<div class="page-titre">Explorer les Sites Touristiques</div>', unsafe_allow_html=True)
         
         col1, col2, col3 = st.columns(3)
         with col1:
-            region = st.selectbox("📍 Région", ['Toutes'] + list(df['region'].unique()))
+            region = st.selectbox("Région", ['Toutes'] + list(df['region'].unique()))
         with col2:
-            cat = st.selectbox("🏷️ Catégorie", ['Toutes'] + list(df['categorie'].unique()))
+            cat = st.selectbox("Catégorie", ['Toutes'] + list(df['categorie'].unique()))
         with col3:
-            tri = st.selectbox("📊 Trier par", ['Note', 'Prix', 'Avis'])
+            tri = st.selectbox("Trier par", ['Note', 'Prix', 'Avis'])
         
         filtered = df.copy()
         if region != 'Toutes':
@@ -484,106 +463,114 @@ else:
         else:
             filtered = filtered.sort_values('avis', ascending=False)
         
-        st.markdown(f"**{len(filtered)} site(s)**")
+        st.write(f"**{len(filtered)} site(s) trouvé(s)**")
         st.markdown('</div>', unsafe_allow_html=True)
         
         for _, site in filtered.iterrows():
             st.markdown(f"""
-            <div class="site-item">
-                <div style="display: flex; justify-content: space-between; align-items: start;">
+            <div class="site-carte">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                     <div>
-                        <div class="site-name">{site['nom']}</div>
-                        <div class="site-location">📍 {site['ville']}, {site['region']}</div>
+                        <div class="site-nom">{site['nom']}</div>
+                        <div class="site-lieu">📍 {site['ville']}, {site['region']}</div>
                     </div>
-                    <span class="tag">{site['categorie']}</span>
+                    <span class="etiquette">{site['categorie']}</span>
                 </div>
-                <p style="color: #555; margin: 1rem 0; line-height: 1.6;">{site['description']}</p>
-                <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; font-size: 0.9rem; color: #666;">
-                    <span>💰 <strong>{site['prix']:,} FCFA</strong></span>
-                    <span>⭐ <strong>{site['note']}/5</strong> ({site['avis']} avis)</span>
-                    <span>🕐 {site['horaires']}</span>
-                    <span>📞 {site['contact']}</span>
+                <div class="site-desc">{site['description']}</div>
+                <div class="site-infos">
+                    💰 <strong>{site['prix']:,} FCFA</strong> &nbsp;|&nbsp;
+                    ⭐ <strong>{site['note']}/5</strong> ({site['avis']} avis) &nbsp;|&nbsp;
+                    🕐 {site['horaires']} &nbsp;|&nbsp;
+                    📞 {site['contact']}
                 </div>
             </div>
             """, unsafe_allow_html=True)
     
+    # ENREGISTRER
     elif st.session_state.page == 'enregistrer':
-        st.markdown('<div class="content-card">', unsafe_allow_html=True)
-        st.markdown('<div class="section-title">Enregistrer Votre Site</div>', unsafe_allow_html=True)
+        st.markdown('<div class="page-carte">', unsafe_allow_html=True)
+        st.markdown('<div class="page-titre">Enregistrer Votre Site Touristique</div>', unsafe_allow_html=True)
         
-        with st.form("form"):
-            nom = st.text_input("🏛️ Nom du site *")
+        with st.form("formulaire"):
+            nom = st.text_input("Nom du site *")
             col1, col2 = st.columns(2)
             with col1:
-                region = st.selectbox("📍 Région *", ["Centre", "Littoral", "Ouest", "Sud", "Sud-Ouest", "Nord-Ouest", "Est", "Adamaoua", "Nord", "Extrême-Nord"])
-                ville = st.text_input("🏘️ Ville *")
-                categorie = st.selectbox("🏷️ Catégorie *", ["Nature", "Monument", "Culture", "Safari", "Plage", "Musée"])
+                region = st.selectbox("Région *", ["Centre", "Littoral", "Ouest", "Sud", "Sud-Ouest", "Nord-Ouest", "Est", "Adamaoua", "Nord", "Extrême-Nord"])
+                ville = st.text_input("Ville *")
+                categorie = st.selectbox("Catégorie *", ["Nature", "Monument", "Culture", "Safari", "Plage", "Musée"])
             with col2:
-                prix = st.number_input("💰 Prix (FCFA)", min_value=0, step=100)
-                horaires = st.text_input("🕐 Horaires")
-                contact = st.text_input("📞 Téléphone")
+                prix = st.number_input("Prix d'entrée (FCFA)", min_value=0, step=100)
+                horaires = st.text_input("Horaires (ex: 08h - 17h)")
+                contact = st.text_input("Téléphone")
             
-            email = st.text_input("✉️ Email")
-            description = st.text_area("📝 Description *")
-            proprietaire = st.text_input("👤 Votre nom complet *")
+            email = st.text_input("Email")
+            description = st.text_area("Description du site *")
+            proprietaire = st.text_input("Votre nom complet *")
             
-            if st.form_submit_button("✅ ENREGISTRER LE SITE", use_container_width=True):
+            if st.form_submit_button("Enregistrer le site", use_container_width=True):
                 if nom and ville and description and proprietaire:
                     new = {"id": len(st.session_state.sites)+1, "nom": nom, "region": region, "ville": ville,
                            "categorie": categorie, "description": description, "prix": prix, "horaires": horaires,
                            "contact": contact, "email": email, "note": 0, "avis": 0}
                     st.session_state.sites.append(new)
-                    st.success(f"✅ '{nom}' enregistré avec succès !")
+                    st.success(f"Le site '{nom}' a été enregistré avec succès !")
                     st.balloons()
                 else:
-                    st.error("⚠️ Remplissez les champs obligatoires")
+                    st.error("Veuillez remplir tous les champs obligatoires (*)")
         st.markdown('</div>', unsafe_allow_html=True)
     
+    # DASHBOARD
     elif st.session_state.page == 'dashboard':
-        st.markdown('<div class="content-card">', unsafe_allow_html=True)
-        st.markdown('<div class="section-title">Analyse des Données</div>', unsafe_allow_html=True)
+        st.markdown('<div class="page-carte">', unsafe_allow_html=True)
+        st.markdown('<div class="page-titre">Tableau de Bord - Analyse des Données</div>', unsafe_allow_html=True)
         
         c1, c2, c3, c4, c5 = st.columns(5)
         c1.metric("Sites", len(df))
         c2.metric("Régions", df['region'].nunique())
         c3.metric("Catégories", df['categorie'].nunique())
-        c4.metric("Note Moy.", f"{df['note'].mean():.2f}")
-        c5.metric("Avis Total", df['avis'].sum())
+        c4.metric("Note Moyenne", f"{df['note'].mean():.2f}")
+        c5.metric("Total Avis", df['avis'].sum())
         st.markdown('</div>', unsafe_allow_html=True)
         
         col1, col2 = st.columns(2)
         with col1:
-            st.markdown('<div class="content-card">', unsafe_allow_html=True)
-            fig = px.pie(df, names='region', title="Répartition par Région", 
-                        color_discrete_sequence=['#FFCC00', '#D4A900', '#FFE066', '#B8960A', '#FFDB4D'])
-            fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', font_color='#333')
+            st.markdown('<div class="page-carte">', unsafe_allow_html=True)
+            fig = px.pie(df, names='region', title="Répartition par Région",
+                        color_discrete_sequence=['#FFCC00', '#FFE066', '#D4A900', '#B8960A', '#FFF2CC'])
+            fig.update_layout(paper_bgcolor='white', font=dict(family="Calibri", color="#1a1a1a"))
             st.plotly_chart(fig, use_container_width=True)
             st.markdown('</div>', unsafe_allow_html=True)
         
         with col2:
-            st.markdown('<div class="content-card">', unsafe_allow_html=True)
-            fig = px.bar(df, x='nom', y='note', title="Notes par Site", color_discrete_sequence=['#FFCC00'])
-            fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', font_color='#333')
+            st.markdown('<div class="page-carte">', unsafe_allow_html=True)
+            cat_counts = df['categorie'].value_counts().reset_index()
+            cat_counts.columns = ['Catégorie', 'Nombre']
+            fig = px.bar(cat_counts, x='Catégorie', y='Nombre', title="Sites par Catégorie",
+                        color_discrete_sequence=['#FFCC00'])
+            fig.update_layout(paper_bgcolor='white', font=dict(family="Calibri", color="#1a1a1a"))
             st.plotly_chart(fig, use_container_width=True)
             st.markdown('</div>', unsafe_allow_html=True)
         
-        st.markdown('<div class="content-card">', unsafe_allow_html=True)
+        st.markdown('<div class="page-carte">', unsafe_allow_html=True)
         st.markdown("**Statistiques Descriptives**")
         stats = df[['prix', 'note', 'avis']].describe()
-        stats.columns = ['Prix (FCFA)', 'Note', 'Avis']
+        stats.columns = ['Prix (FCFA)', 'Note', 'Nombre Avis']
         st.dataframe(stats.round(2), use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
         
-        st.markdown('<div class="content-card">', unsafe_allow_html=True)
-        st.markdown("**Données Complètes**")
-        st.dataframe(df[['nom', 'region', 'ville', 'categorie', 'prix', 'note', 'avis']], use_container_width=True, hide_index=True)
+        st.markdown('<div class="page-carte">', unsafe_allow_html=True)
+        st.markdown("**Base de Données Complète**")
+        st.dataframe(df[['nom', 'region', 'ville', 'categorie', 'prix', 'note', 'avis']], 
+                    use_container_width=True, hide_index=True)
         csv = df.to_csv(index=False).encode('utf-8')
-        st.download_button("📥 EXPORTER CSV", csv, "tanap_data.csv", use_container_width=True)
+        st.download_button("Télécharger les données (CSV)", csv, "tanap_donnees.csv", use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
     
+    # Footer
     st.markdown("""
-    <div class="footer-bar">
-        🇨🇲 <strong>TANAP</strong> - Guide Touristique Camerounais<br>
-        <span class="gold-badge">24F2551 | NDOUMA NANG SOSTHENE ASTIN</span>
+    <div class="pied-page">
+        <p>🇨🇲 <strong>TANAP</strong> - Guide Touristique Camerounais</p>
+        <p>TP INF232 EC2 - Application de Collecte et Analyse de Données</p>
+        <span class="badge-or">Matricule: 24F2551 | NDOUMA NANG SOSTHENE ASTIN</span>
     </div>
     """, unsafe_allow_html=True)
