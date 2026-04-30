@@ -7,7 +7,7 @@ from datetime import datetime
 st.set_page_config(page_title="TANAP - Guide Cameroun", page_icon="🇨🇲", layout="wide")
 
 # Image de fond (Monument de la Réunification)
-BG_IMAGE = "https://i.imgur.com/8QxZK5q.jpeg"
+BG_IMAGE = "https://raw.githubusercontent.com/VOTRE_USERNAME/24F2551-NDOUMA-NANG-SOSTHENE-ASTIN/main/image%20de%20fond.jpg"
 
 # CSS UNIQUE - Design humain et chaleureux
 st.markdown(f"""
